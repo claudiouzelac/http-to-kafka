@@ -45,6 +45,5 @@ Kafka topic.
 
 ## AUTHOR(s) ##
 
-    Stewart Henderson<stewart.henderson@live.com>
-
+    Stewart Henderson<henderson.geoffrey@gmail.com>
 
