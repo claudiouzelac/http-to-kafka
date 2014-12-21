@@ -15,34 +15,40 @@ quickly post via a RESTful interface.
 
 ## Compilation ##
 
-    `makedir build`
+    makedir build
     
-    `cmake ..`
+    cmake ..
     
-    `make all`
+    make all
 
 ## Usage ##
 
-    `./http-to-kafka address port kafka-broker`
+    ./http-to-kafka {config file}
+
+## Configuration ##
+
+The configuration is stored in the config.json file and looks like:
+
+  {
+    "address": "0.0.0.0",
+    "port": "8084",
+    "kafka-brokers": "localhost:9092",
+    "topics": ["topic1", "topic2"]
+  }
   
-    `./http-to-kafka 0.0.0.0 8080 localhost:9092`
+  Where address is the server address, port is the server port, kafka-brokers
+  are the Kafka brokers that this service connects to and topics are the permitted
+  topics that this service may publish to.  Once configured and running you can 
+  simply post to the server topics like:
+  
+  POST http://0.0.0.0:8084/topic1
+  
+  POST http://0.0.0.0:8084/topic2
 
 ## Expected message format ##
 
-The REST interface expects a POST request with a body in the 
-following format:
-
-    `
-    {
-      "topic":"",
-      "payload":""
-    }
-    `
-  
-Where "topic" is the topic that you want your message to go into 
-and "payload" is the message that you wish to place into the 
-Kafka topic.
-
+The REST interface expects a POST request.  The body will
+be the body of your Kafka message.
 
 ## License ##
 

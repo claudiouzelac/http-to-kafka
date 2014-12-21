@@ -1,6 +1,6 @@
 {
   "address": "0.0.0.0",
   "port": "8084",
-  "kafka-brokers": "kafka-1.qa.ciq-internal.net:9092",
-  "topics": ["acquired-offers", "resolved-acquired-offers"]
+  "kafka-brokers": "localhost:9092",
+  "topics": ["topic1", "topic2"]
 }
