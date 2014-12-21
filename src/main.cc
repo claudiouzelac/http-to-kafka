@@ -8,43 +8,46 @@
  * @copyright Licensed under the MIT License
  * @copyright http://opensource.org/licenses/MIT
  */
+#include <string>
 #include <iostream>
+#include <set>
+#include <map>
+
 #include <boost/network/protocol/http/server.hpp>
-#include "rapidjson/document.h"
+#include "json_config.hpp"
 #include "kafka_writer.hpp"
 
-std::string broker_list;
 namespace http = boost::network::http;
 
 struct handler;
 typedef http::server<handler> server;
 
+std::map<std::string,kafka_writer*> producers_by_topic;
+
+/**
+ *
+ */
 struct handler {
     void operator()(server::request const &request, server::response &response) {
         server::string_type ip = source(request);
-        //TODO: Add logging.
-        std::cout << "request ip=" << ip << std::endl;
-        std::string json = request.body;
         std::ostringstream data;
-        if(json.size() == 0) {
-            data << "no message provided" << std::endl;
-            response = server::response::stock_reply(server::response::ok, data.str());
-        } else {
-            //TODO: Cache the writers for later re-use.
-            kafka_writer * writer = new kafka_writer("kafka-1.qa.ciq-internal.net:9092");
-            rapidjson::Document d;
-            try {
-                d.Parse<0>(json.c_str());
-                std::string topic = d["topic"].GetString();
-                std::string payload = d["payload"].GetString();
-                if(!writer->write(topic, payload)) {
-                    std::cerr << "kafka write failed to topic=" << topic << std::endl;
-                }
-            } catch(...) {
-                std::cerr << "failed to send message" << std::endl;
+        std::string requested_topic = request.destination.erase(0, 1);
+
+        kafka_writer * writer;
+        std::map<std::string,kafka_writer*>::iterator it = producers_by_topic.find(requested_topic);
+        if(it != producers_by_topic.end()) {
+            std::string message = request.body;
+            if(message.size() == 0) {
+                data << "no message provided" << std::endl;
+                response = server::response::stock_reply(server::response::ok, data.str());
+            } else {
+                writer = it->second;
+                writer->write(message);
+                data << "OK" << std::endl;
+                response = server::response::stock_reply(server::response::ok, data.str());
             }
-            free(writer);
-            data << "OK" << std::endl;
+        } else {
+            data << "topic not available" << std::endl;
             response = server::response::stock_reply(server::response::ok, data.str());
         }
     }
@@ -53,15 +56,24 @@ struct handler {
 };
 
 int main(int argc, char *argv[]) {
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " address port brokers" << std::endl;
+    if (argc != 2) {
+        std::cerr << "Usage: " << argv[0] << " json config" << std::endl;
         return 1;
     }
     try {
-        broker_list = argv[3];
+        json_config config(argv[1]);
+        std::string server_address = config.get_string("address");
+        std::string server_port = config.get_string("port");
+        std::string broker_list = config.get_string("kafka-brokers");
+        std::set<std::string> topics = config.get_strings("topics");
+        std::set<std::string>::iterator it;
+        for (it = topics.begin(); it != topics.end(); ++it) {
+            std::cout << (*it).c_str() << std::endl;
+            producers_by_topic[(*it).c_str()]= new kafka_writer(broker_list, *it);
+        }
         handler handler;
         server::options options(handler);
-        server server_(options.address(argv[1]).port(argv[2]));
+        server server_(options.address(server_address).port(server_port));
         server_.run();
     }
     catch (std::exception &e) {
