@@ -1,0 +1,7 @@
+.idea
+tmp
+thirdparty
+stamp
+build
+install
+doxygen
