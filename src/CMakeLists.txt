@@ -12,6 +12,7 @@ FIND_PACKAGE(Boost REQUIRED COMPONENTS
 	chrono
 	thread
 )
+find_package( ZLIB REQUIRED )
 ADD_DEFINITIONS(-DBoost_USE_STATIC_LIBS=ON)
 EXTERNALPROJECT_ADD(
   librdkafka
@@ -40,6 +41,7 @@ EXTERNALPROJECT_ADD(
   INSTALL_COMMAND ""
 )
 SET(CPP_NETLIB_HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/cpp-netlib)
+SET(KAFKA_C_INC ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/librdkafka/src)
 SET(KAFKA_CPP_INC ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/librdkafka/src-cpp)
 SET(RAPID_JSON_INC ${CMAKE_CURRENT_SOURCE_DIR}/../thirdparty/rapidjson/include)
 ADD_EXECUTABLE(http-to-kafka main.cc)
@@ -50,8 +52,9 @@ LINK_DIRECTORIES(
 )
 TARGET_LINK_LIBRARIES(http-to-kafka
     ${Boost_LIBRARIES}
-    librdkafka.a
-    librdkafka++.a
+    ${KAFKA_CPP_INC}/librdkafka++.a
+    ${KAFKA_C_INC}/librdkafka.a
+    ${ZLIB_LIBRARIES}
     libssl.a
     ${CRYPTO_LIBRARIES}
 )
