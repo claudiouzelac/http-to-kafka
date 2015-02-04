@@ -49,7 +49,7 @@ std::set<std::string> json_config::get_strings(std::string keyA) {
 }
 
 std::string json_config::load_file(std::string filePathA) {
-    std::ifstream input_file(filePathA, std::ios::in);
+    std::ifstream input_file(filePathA, std::ifstream::in);
     std::stringstream sstr;
     sstr << input_file.rdbuf();
     return sstr.str();
