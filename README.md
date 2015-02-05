@@ -56,9 +56,9 @@ be the body of your Kafka message.
 
     MIT
     
-## CI ##
+## Docker ##
 
-    https://travis-ci.org/bowlofstew/http-to-kafka
+    https://registry.hub.docker.com/u/bowlofstew/http-to-kafka
 
 ## Authors(s) ##
 
