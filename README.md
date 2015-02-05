@@ -29,21 +29,23 @@ quickly post via a RESTful interface.
 
 The configuration is stored in the config.json file and looks like:
 
+  ```json
   {
     "address": "0.0.0.0",
     "port": "8084",
     "kafka-brokers": "localhost:9092",
     "topics": ["topic1", "topic2"]
   }
+  ```
   
   Where address is the server address, port is the server port, kafka-brokers
   are the Kafka brokers that this service connects to and topics are the permitted
   topics that this service may publish to.  Once configured and running you can 
   simply post to the server topics like:
   
-  POST http://0.0.0.0:8084/topic1
+    POST http://0.0.0.0:8084/topic1
   
-  POST http://0.0.0.0:8084/topic2
+    POST http://0.0.0.0:8084/topic2
 
 ## Expected message format ##
 
