@@ -43,9 +43,9 @@ The configuration is stored in the config.json file and looks like:
   topics that this service may publish to.  Once configured and running you can 
   simply post to the server topics like:
   
-  POST http://0.0.0.0:8084/topic1
+    POST http://0.0.0.0:8084/topic1
   
-  POST http://0.0.0.0:8084/topic2
+    POST http://0.0.0.0:8084/topic2
 
 ## Expected message format ##
 
