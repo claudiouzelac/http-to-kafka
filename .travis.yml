@@ -73,5 +73,4 @@ deploy:
   file: "http-to-kafka"
   skip_cleanup: true
   on:
-    tags: true
     all_branches: true
