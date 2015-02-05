@@ -29,12 +29,14 @@ quickly post via a RESTful interface.
 
 The configuration is stored in the config.json file and looks like:
 
+  ```json
   {
     "address": "0.0.0.0",
     "port": "8084",
     "kafka-brokers": "localhost:9092",
     "topics": ["topic1", "topic2"]
   }
+  ```
   
   Where address is the server address, port is the server port, kafka-brokers
   are the Kafka brokers that this service connects to and topics are the permitted
