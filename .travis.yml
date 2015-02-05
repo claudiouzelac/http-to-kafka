@@ -70,7 +70,7 @@ notifications:
 deploy:
   provider: releases
   api-key: "9a7cf431250dc0747287bd21c7ea53529fe0e61e"
-  file: "/home/travis/build/bowlofstew/http-to-kafka/build/http-to-kafka"
+  file: "/home/travis/build/bowlofstew/http-to-kafka/build/src/http-to-kafka"
   skip_cleanup: true
   on:
     all_branches: true
