@@ -15,7 +15,9 @@ quickly post via a RESTful interface.
 
 ## Compilation ##
 
-    makedir build
+    mkdir build
+    
+    cd build
     
     cmake ..
     
