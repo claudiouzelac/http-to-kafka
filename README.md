@@ -5,8 +5,7 @@ quickly post via a RESTful interface.
 
 ## Status ##
 
-[![Build Status](https://travis-ci.org/bowlofstew/http-to-kafka.png)](https://travis-ci.org/bowlofstew/http-to-kafka)
-
+[![Build Status](https://travis-ci.org/bowlofstew/http-to-kafka.png)](https://travis-ci.org/bowlofstew/http-to-kafka) [![Coverage Status](https://coveralls.io/repos/bowlofstew/http-to-kafka/badge.svg?branch=master&service=github)](https://coveralls.io/github/bowlofstew/http-to-kafka?branch=master)
 ## Prerequisites ##
 
   * BOOST 1.55+
